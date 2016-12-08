@@ -106,6 +106,12 @@ void Config_StoreSettings()
 void Config_PrintSettings()
 {  // Always have this function, even with EEPROM_SETTINGS disabled, the current values will be shown
     SERIAL_ECHO_START;
+    SERIAL_ECHOPGM("current_position X:");SERIAL_ECHO(current_position[0]);
+    SERIAL_ECHOPGM(" Y:");SERIAL_ECHO(current_position[1]);
+    SERIAL_ECHOPGM(" Z:");SERIAL_ECHO(current_position[2]);
+    SERIAL_ECHOPGM("\n");
+
+    SERIAL_ECHO_START;
     SERIAL_ECHOLNPGM("Steps per unit:");
     SERIAL_ECHO_START;
     SERIAL_ECHOPAIR("  M92 X",axis_steps_per_unit[0]);
@@ -295,12 +301,7 @@ void Config_ResetDefault()
     absPreheatHPBTemp = ABS_PREHEAT_HPB_TEMP;
     absPreheatFanSpeed = ABS_PREHEAT_FAN_SPEED;
 #endif
-#ifdef ENABLE_AUTO_BED_LEVELING
-    zprobe_zoffset = -Z_PROBE_OFFSET_FROM_EXTRUDER;
-#endif
-#ifdef DOGLCD
-    lcd_contrast = DEFAULT_LCD_CONTRAST;
-#endif
+
 #ifdef PIDTEMP
     Kp = DEFAULT_Kp;
     Ki = scalePID_i(DEFAULT_Ki);

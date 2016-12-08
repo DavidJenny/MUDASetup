@@ -32,7 +32,7 @@ void lcd_level_bed(void);
   #define LCD_ALERTMESSAGEPGM(x) lcd_setalertstatuspgm(PSTR(x))
 
   #define LCD_UPDATE_INTERVAL 100
-  #define LCD_TIMEOUT_TO_STATUS 15000
+  #define LCD_TIMEOUT_TO_STATUS 60000
 
   #ifdef ULTIPANEL
   void lcd_buttons_update();
@@ -116,8 +116,11 @@ char *ftostr3(const float &x);
 char *ftostr31ns(const float &x); // float to string without sign character
 char *ftostr31(const float &x);
 char *ftostr32(const float &x);
+char *ftostr5abs(const float &x);
 char *ftostr5(const float &x);
 char *ftostr51(const float &x);
+char *ftostr51abs(const float &x);
 char *ftostr52(const float &x);
+char *ftostr61(const float &x);
 
 #endif //ULTRALCD

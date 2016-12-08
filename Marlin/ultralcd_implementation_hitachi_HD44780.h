@@ -372,6 +372,7 @@ Possible status screens:
        |F100%  SD100% T--:--|
        |Status line.........|
 */
+// FABIO
 static void lcd_implementation_status_screen()
 {
     int tHotend=int(degHotend(0) + 0.5);
@@ -401,14 +402,14 @@ static void lcd_implementation_status_screen()
 # endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
 
 #else//LCD_WIDTH > 19
-    lcd.setCursor(0, 0);
-    lcd.print(LCD_STR_THERMOMETER[0]);
-    lcd.print(itostr3(tHotend));
-    lcd.print('/');
-    lcd.print(itostr3left(tTarget));
-    lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
-    if (tTarget < 10)
-        lcd.print(' ');
+    //lcd.setCursor(0, 0);
+    //lcd.print(LCD_STR_THERMOMETER[0]);
+    //lcd.print(itostr3(tHotend));
+    //lcd.print('/');
+    //lcd.print(itostr3left(tTarget));
+    //lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
+    //if (tTarget < 10)
+        //lcd.print(' ');
 
 # if EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
     //If we have an 2nd extruder or heated bed, show that in the top right corner
@@ -458,35 +459,79 @@ static void lcd_implementation_status_screen()
     if (tTarget < 10)
         lcd.print(' ');
 #  else
+    // FABIO: LCD Info Screen
+    // X Row
+    lcd.setCursor(0,0);
+    lcd.print('X');lcd.print(':');
+    lcd.setCursor(3,0);
+    lcd.print(ftostr61(current_position[X_AXIS]));
+    lcd.setCursor(11,0);
+    if (SHOW_CABLE_LENGHT) {
+    	lcd.print('A');lcd.print(':');
+    	lcd.setCursor(14,0);
+    	lcd.print(ftostr51abs(cable[X_AXIS]));
+    } else {
+    	lcd.print('m');lcd.print('m');
+    }
+
+    // Y Row
     lcd.setCursor(0,1);
+    lcd.print('Y');lcd.print(':');
+    lcd.setCursor(3,1);
+    lcd.print(ftostr61(current_position[Y_AXIS]));
+    lcd.setCursor(11,1);
+    if (SHOW_CABLE_LENGHT) {
+		lcd.print('B');lcd.print(':');
+		lcd.setCursor(14,1);
+		lcd.print(ftostr51abs(cable[Y_AXIS]));
+	} else {
+		lcd.print('m');lcd.print('m');
+	}
+
+    // Z Row
+    lcd.setCursor(0,2);
+    lcd.print('Z');lcd.print(':');
+    lcd.setCursor(3,2);
+    lcd.print(ftostr61(current_position[Z_AXIS]));
+    lcd.setCursor(11,2);
+    if (SHOW_CABLE_LENGHT) {
+		lcd.print('C');lcd.print(':');
+		lcd.setCursor(14,2);
+		lcd.print(ftostr51abs(cable[Z_AXIS]));
+	} else {
+		lcd.print('m');lcd.print('m');
+	}
+
+    /*lcd.setCursor(0,1);
     lcd.print('X');
     lcd.print(ftostr3(current_position[X_AXIS]));
     lcd_printPGM(PSTR(" Y"));
-    lcd.print(ftostr3(current_position[Y_AXIS]));
+    lcd.print(ftostr3(current_position[Y_AXIS]));*/
 #  endif//EXTRUDERS > 1 || TEMP_SENSOR_BED != 0
 # endif//LCD_WIDTH > 19
-    lcd.setCursor(LCD_WIDTH - 8, 1);
+    /*lcd.setCursor(LCD_WIDTH - 8, 1);
     lcd.print('Z');
-    lcd.print(ftostr32(current_position[Z_AXIS]));
+    lcd.print(ftostr32(current_position[Z_AXIS]));*/
 #endif//LCD_HEIGHT > 2
 
 #if LCD_HEIGHT > 3
-    lcd.setCursor(0, 2);
-    lcd.print(LCD_STR_FEEDRATE[0]);
+    lcd.setCursor(0, 3);
+    //lcd.print(LCD_STR_FEEDRATE[0]);
+    lcd.print("Speed: ");
     lcd.print(itostr3(feedmultiply));
     lcd.print('%');
 # if LCD_WIDTH > 19
 #  ifdef SDSUPPORT
-    lcd.setCursor(7, 2);
+    /*lcd.setCursor(7, 2);
     lcd_printPGM(PSTR("SD"));
     if (IS_SD_PRINTING)
         lcd.print(itostr3(card.percentDone()));
     else
         lcd_printPGM(PSTR("---"));
-    lcd.print('%');
+    lcd.print('%');*/
 #  endif//SDSUPPORT
 # endif//LCD_WIDTH > 19
-    lcd.setCursor(LCD_WIDTH - 6, 2);
+    /*lcd.setCursor(LCD_WIDTH - 6, 2);
     lcd.print(LCD_STR_CLOCK[0]);
     if(starttime != 0)
     {
@@ -496,12 +541,12 @@ static void lcd_implementation_status_screen()
         lcd.print(itostr2(time%60));
     }else{
         lcd_printPGM(PSTR("--:--"));
-    }
+    }*/
 #endif
 
     //Status message line on the last line
-    lcd.setCursor(0, LCD_HEIGHT - 1);
-    lcd.print(lcd_status_message);
+    //lcd.setCursor(0, LCD_HEIGHT - 1);
+    //lcd.print(lcd_status_message);
 }
 static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, char pre_char, char post_char)
 {
